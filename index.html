@@ -579,17 +579,41 @@
     /* ── RESPONSIVE ── */
     @media (max-width: 900px) {
       .hero-inner { grid-template-columns: 1fr; gap: 3rem; }
-      .orcamento-card { max-width: 520px; }
+      .orcamento-card { max-width: 520px; margin: 0 auto; width: 100%; }
       .loc-inner { grid-template-columns: 1fr; }
       .map-container { height: 280px; }
       .nav-links, .nav-cta { display: none; }
+      .nav-right .social-btn { display: none; }
       .nav-hamburger { display: flex; }
-      .trust-item { padding-right: 1.5rem; margin-right: 1.5rem; }
     }
     @media (max-width: 600px) {
-      .hero { padding: 90px 5% 50px; }
-      .hero-trust { gap: 0; }
-      .trust-item { padding-right: 1.2rem; margin-right: 1.2rem; }
+      .hero { padding: 96px 6% 56px; }
+      h1 { font-size: clamp(2.6rem, 13vw, 3.4rem); margin-bottom: 1.6rem; }
+      h1 .h1-small { margin-bottom: 0.4em; }
+      .hero-sub { font-size: 1rem; line-height: 1.7; margin-bottom: 2rem; }
+      /* botões em largura cheia e empilhados */
+      .hero-btns { flex-direction: column; gap: 0.8rem; }
+      .hero-btns .btn-wpp,
+      .hero-btns .btn-ghost { width: 100%; justify-content: center; }
+      /* trust vira grade 2x2 com respiro */
+      .hero-trust {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.6rem 1.4rem;
+        margin-top: 2.8rem;
+        padding-top: 2.2rem;
+      }
+      .trust-item {
+        padding-right: 0; margin-right: 0;
+        border-right: none;
+        padding-bottom: 1.4rem;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+      }
+      /* remove a linha de baixo dos dois últimos itens */
+      .trust-item:nth-last-child(-n+2) { border-bottom: none; padding-bottom: 0; }
+      /* adiciona divisória vertical entre as colunas */
+      .trust-item:nth-child(odd) { border-right: 1px solid rgba(255,255,255,0.1); padding-right: 1.4rem; }
+      .trust-num { font-size: 2rem; }
       .form-row { grid-template-columns: 1fr; }
     }
   </style>
