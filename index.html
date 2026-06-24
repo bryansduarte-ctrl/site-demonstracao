@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AutoEscola ViaLivre — Sua CNH com Segurança</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --azul:     #1A3A6C;
+      --azul-mid: #1E4E8C;
+      --azul-deep:#0F2347;
+      --amarelo:  #F5C518;
+      --amarelo2: #E8B800;
+      --amarelo-light: rgba(245,197,24,0.12);
+      --branco:   #FFFFFF;
+      --cinza-f:  #F4F6FA;
+      --cinza-t:  #6B7280;
+      --cinza-border: #E2E6EF;
+      --escuro:   #0D1B33;
+      --verde-wpp:#25D366;
+      --verde-wpp2:#1EB851;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--escuro);
+      background: var(--branco);
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(15,35,71,0.96);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(245,197,24,0.1);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 6%;
+      height: 68px;
+    }
+    .nav-logo {
+      display: flex; align-items: center;
+    }
+    .nav-logo img { height: 40px; width: auto; display: block; }
+    .nav-logo-placeholder {
+      display: flex; align-items: center; gap: 0.5rem;
+      border: 1.5px dashed rgba(245,197,24,0.5);
+      border-radius: 8px;
+      padding: 0.3rem 0.9rem;
+      color: rgba(255,255,255,0.5);
+      font-size: 0.75rem; font-weight: 600;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      transition: border-color .2s, color .2s;
+    }
+    .nav-logo-placeholder:hover { border-color: var(--amarelo); color: var(--amarelo); }
+    .nav-logo-placeholder span { font-size: 1rem; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: rgba(255,255,255,0.7);
+      text-decoration: none; font-size: 0.875rem; font-weight: 500;
+      letter-spacing: 0.2px;
+      transition: color .2s;
+      position: relative;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute; bottom: -4px; left: 0; right: 0;
+      height: 1.5px; background: var(--amarelo);
+      transform: scaleX(0); transition: transform .2s;
+    }
+    .nav-links a:hover { color: var(--branco); }
+    .nav-links a:hover::after { transform: scaleX(1); }
+    .nav-cta {
+      background: var(--amarelo); color: var(--azul-deep);
+      padding: 0.5rem 1.3rem; border-radius: 6px;
+      font-weight: 700; font-size: 0.85rem; text-decoration: none;
+      letter-spacing: 0.2px;
+      transition: background .2s, transform .15s;
+    }
+    .nav-cta:hover { background: var(--amarelo2); transform: translateY(-1px); }
+    .nav-hamburger { display: none; cursor: pointer; flex-direction: column; gap: 5px; }
+    .nav-hamburger span { width: 24px; height: 2px; background: white; border-radius: 2px; }
+    .nav-right { display: flex; align-items: center; gap: 0.6rem; }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      background: linear-gradient(150deg, var(--azul-deep) 0%, var(--azul) 45%, #163872 100%);
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+      padding: 100px 6% 60px;
+    }
+    /* estrada pontilhada decorativa */
+    .hero::before {
+      content: '';
+      position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+      width: 3px; height: 50%;
+      background: repeating-linear-gradient(to top, var(--amarelo) 0, var(--amarelo) 22px, transparent 22px, transparent 40px);
+      opacity: 0.18;
+    }
+    /* brilho radial */
+    .hero::after {
+      content: '';
+      position: absolute; top: -150px; right: -100px;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(245,197,24,0.14) 0%, transparent 65%);
+      border-radius: 50%;
+    }
+    /* brilho esquerda */
+    .hero-glow-left {
+      position: absolute; bottom: -100px; left: -80px;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(30,78,140,0.6) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .hero-inner {
+      max-width: 1100px; width: 100%;
+      display: grid; grid-template-columns: 1fr 420px; gap: 5rem;
+      align-items: center; position: relative; z-index: 1;
+    }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: rgba(245,197,24,0.12);
+      border: 1px solid rgba(245,197,24,0.35);
+      color: var(--amarelo); padding: 0.4rem 1rem;
+      border-radius: 30px; font-size: 0.75rem; font-weight: 700;
+      margin-bottom: 1.6rem; letter-spacing: 1px; text-transform: uppercase;
+    }
+    .hero-badge::before { content: '★'; margin-right: 2px; }
+
+    h1 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(3rem, 6.5vw, 5.6rem);
+      font-weight: 900;
+      color: var(--branco);
+      line-height: 0.95;
+      letter-spacing: -1px;
+      margin-bottom: 1.4rem;
+    }
+    h1 em {
+      color: var(--amarelo); font-style: normal;
+      display: block;
+    }
+    h1 .h1-small {
+      font-size: 0.55em;
+      font-weight: 700;
+      color: rgba(255,255,255,0.55);
+      display: block;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 0.15em;
+      font-size: clamp(0.9rem, 1.5vw, 1.3rem);
+    }
+
+    .hero-sub {
+      color: rgba(255,255,255,0.65);
+      font-size: 1.05rem; line-height: 1.75;
+      margin-bottom: 2.4rem; max-width: 460px;
+    }
+    .hero-sub strong { color: rgba(255,255,255,0.9); font-weight: 600; }
+
+    .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn-wpp {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      background: var(--verde-wpp); color: white;
+      padding: 0.9rem 1.8rem; border-radius: 8px;
+      font-weight: 700; font-size: 0.95rem; text-decoration: none;
+      transition: background .2s, transform .15s, box-shadow .2s;
+      box-shadow: 0 6px 24px rgba(37,211,102,0.3);
+      letter-spacing: 0.2px;
+    }
+    .btn-wpp:hover { background: var(--verde-wpp2); transform: translateY(-2px); box-shadow: 0 10px 30px rgba(37,211,102,0.4); }
+    .btn-wpp svg { width: 20px; height: 20px; flex-shrink: 0; }
+    .btn-ghost {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      color: rgba(255,255,255,0.7); border: 1.5px solid rgba(255,255,255,0.2);
+      padding: 0.9rem 1.6rem; border-radius: 8px;
+      font-weight: 600; font-size: 0.9rem; text-decoration: none;
+      transition: border-color .2s, color .2s, background .2s;
+    }
+    .btn-ghost:hover { border-color: rgba(245,197,24,0.6); color: var(--amarelo); background: rgba(245,197,24,0.06); }
+
+    .hero-trust {
+      margin-top: 3.5rem;
+      display: flex; gap: 0; flex-wrap: wrap;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding-top: 2rem;
+    }
+    .trust-item {
+      display: flex; flex-direction: column;
+      padding-right: 2rem; margin-right: 2rem;
+      border-right: 1px solid rgba(255,255,255,0.12);
+    }
+    .trust-item:last-child { border-right: none; }
+    .trust-num {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 2.2rem; font-weight: 900; color: var(--amarelo); line-height: 1;
+    }
+    .trust-label { font-size: 0.75rem; color: rgba(255,255,255,0.5); margin-top: 3px; letter-spacing: 0.3px; }
+
+    /* ── CARD ORÇAMENTO ── */
+    .orcamento-card {
+      background: var(--branco);
+      border-radius: 20px;
+      padding: 2.2rem;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,255,255,0.05);
+    }
+    .orcamento-card h3 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.6rem; font-weight: 800; color: var(--azul-deep);
+      margin-bottom: 0.3rem; line-height: 1.1;
+    }
+    .orcamento-card > p { font-size: 0.83rem; color: var(--cinza-t); margin-bottom: 1.6rem; line-height: 1.5; }
+    .form-group { margin-bottom: 1rem; }
+    .form-group label {
+      display: block; font-size: 0.77rem; font-weight: 700;
+      color: var(--escuro); margin-bottom: 0.4rem;
+      text-transform: uppercase; letter-spacing: 0.5px;
+    }
+    .form-group select,
+    .form-group input {
+      width: 100%; padding: 0.72rem 1rem;
+      border: 1.5px solid var(--cinza-border); border-radius: 8px;
+      font-size: 0.9rem; color: var(--escuro);
+      font-family: 'Inter', sans-serif; font-weight: 500;
+      transition: border-color .2s, box-shadow .2s;
+      appearance: none;
+      background: #FAFBFD;
+    }
+    .form-group select:focus,
+    .form-group input:focus {
+      outline: none; border-color: var(--azul-mid);
+      background: white;
+      box-shadow: 0 0 0 3px rgba(30,78,140,0.08);
+    }
+    .form-group input::placeholder { color: #B0B8C8; font-weight: 400; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+    .btn-submit-wpp {
+      width: 100%; display: flex; align-items: center; justify-content: center; gap: 0.6rem;
+      background: var(--verde-wpp); color: white;
+      padding: 1rem; border-radius: 8px;
+      font-weight: 700; font-size: 0.95rem;
+      border: none; cursor: pointer;
+      margin-top: 1.2rem;
+      transition: background .2s, transform .15s, box-shadow .2s;
+      font-family: 'Inter', sans-serif;
+      box-shadow: 0 4px 16px rgba(37,211,102,0.25);
+      letter-spacing: 0.2px;
+    }
+    .btn-submit-wpp:hover { background: var(--verde-wpp2); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(37,211,102,0.35); }
+    .btn-submit-wpp svg { width: 20px; height: 20px; flex-shrink: 0; }
+    .card-seguro { font-size: 0.73rem; color: #A0A8B5; text-align: center; margin-top: 0.9rem; }
+    .card-divider {
+      height: 1px; background: var(--cinza-border);
+      margin: 1.4rem 0;
+    }
+    .card-highlight {
+      display: flex; align-items: center; gap: 0.5rem;
+      background: rgba(245,197,24,0.08); border: 1px solid rgba(245,197,24,0.2);
+      border-radius: 8px; padding: 0.6rem 0.9rem;
+      font-size: 0.78rem; color: #8B6A00; font-weight: 600;
+      margin-bottom: 1.2rem;
+    }
+
+    /* ── CATEGORIAS ── */
+    .categorias {
+      background: var(--azul-deep);
+      padding: 5rem 6%;
+    }
+    .cat-header { text-align: center; margin-bottom: 3rem; }
+    .section-eyebrow {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 2.5px;
+      color: var(--amarelo); text-transform: uppercase; margin-bottom: 0.7rem;
+      display: block;
+    }
+    .cat-header h2 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 800;
+      color: var(--branco); line-height: 1.05;
+    }
+    .cat-header h2 span { color: var(--amarelo); }
+    .cat-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 1rem; max-width: 1100px; margin: 0 auto;
+    }
+    .cat-card {
+      background: rgba(255,255,255,0.05);
+      border: 1.5px solid rgba(255,255,255,0.08);
+      border-radius: 14px; padding: 1.8rem 1.4rem;
+      text-align: center;
+      transition: background .25s, border-color .25s, transform .25s;
+      cursor: default;
+      position: relative; overflow: hidden;
+    }
+    .cat-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--amarelo), transparent);
+      opacity: 0; transition: opacity .25s;
+    }
+    .cat-card:hover {
+      background: rgba(245,197,24,0.08);
+      border-color: rgba(245,197,24,0.3);
+      transform: translateY(-5px);
+    }
+    .cat-card:hover::before { opacity: 1; }
+    .cat-icon { font-size: 2rem; margin-bottom: 0.9rem; display: block; }
+    .cat-card h4 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.5rem; font-weight: 800; color: var(--amarelo);
+      margin-bottom: 0.4rem; letter-spacing: 0.3px;
+    }
+    .cat-card p { font-size: 0.8rem; color: rgba(255,255,255,0.55); line-height: 1.6; }
+
+    /* ── POR QUE ESCOLHER ── */
+    .porque {
+      padding: 6rem 6%;
+      background: var(--cinza-f);
+    }
+    .porque-inner { max-width: 1100px; margin: 0 auto; }
+    .porque-header { text-align: center; margin-bottom: 3.5rem; }
+    .porque-header h2 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 800; color: var(--azul-deep);
+      line-height: 1.05; margin-bottom: 0.6rem;
+    }
+    .porque-header p { color: var(--cinza-t); font-size: 0.95rem; max-width: 520px; margin: 0 auto; line-height: 1.65; }
+    .diferenciais-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.4rem;
+    }
+    .dif-card {
+      background: white; border-radius: 16px; padding: 2rem 1.8rem;
+      border: 1.5px solid var(--cinza-border);
+      transition: border-color .25s, box-shadow .25s, transform .25s;
+      position: relative; overflow: hidden;
+    }
+    .dif-card::after {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--azul), var(--azul-mid));
+      transform: scaleX(0); transform-origin: left;
+      transition: transform .3s;
+    }
+    .dif-card:hover {
+      border-color: rgba(30,78,140,0.2);
+      box-shadow: 0 12px 40px rgba(26,58,108,0.1);
+      transform: translateY(-4px);
+    }
+    .dif-card:hover::after { transform: scaleX(1); }
+    .dif-icon {
+      width: 48px; height: 48px; border-radius: 12px;
+      background: linear-gradient(135deg, var(--azul-deep), var(--azul-mid));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.35rem; margin-bottom: 1.2rem;
+      box-shadow: 0 4px 12px rgba(26,58,108,0.2);
+    }
+    .dif-card h4 { font-size: 1rem; font-weight: 700; color: var(--azul-deep); margin-bottom: 0.55rem; line-height: 1.3; }
+    .dif-card p { font-size: 0.86rem; color: var(--cinza-t); line-height: 1.7; }
+
+    /* ── DEPOIMENTOS ── */
+    .depoimentos {
+      padding: 6rem 6%;
+      background: var(--branco);
+    }
+    .dep-inner { max-width: 1100px; margin: 0 auto; }
+    .dep-header { text-align: center; margin-bottom: 3rem; }
+    .dep-header h2 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 800; color: var(--azul-deep);
+      line-height: 1.05;
+    }
+    .dep-header p { color: var(--cinza-t); margin-top: 0.5rem; font-size: 0.92rem; }
+    .dep-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: 1.4rem;
+    }
+    .dep-card {
+      border: 1.5px solid var(--cinza-border); border-radius: 16px; padding: 1.8rem;
+      position: relative; background: white;
+      transition: box-shadow .2s, transform .2s;
+    }
+    .dep-card:hover { box-shadow: 0 8px 30px rgba(0,0,0,0.08); transform: translateY(-3px); }
+    .dep-card::before {
+      content: '"';
+      position: absolute; top: 1rem; right: 1.5rem;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 5rem; font-weight: 900;
+      color: var(--amarelo); opacity: 0.15;
+      line-height: 1;
+    }
+    .dep-stars { color: var(--amarelo); font-size: 0.9rem; margin-bottom: 0.9rem; letter-spacing: 2px; }
+    .dep-card blockquote {
+      font-size: 0.9rem; color: #4B5563; line-height: 1.75;
+      margin-bottom: 1.4rem; font-style: italic; position: relative; z-index: 1;
+    }
+    .dep-author { display: flex; align-items: center; gap: 0.9rem; }
+    .dep-avatar {
+      width: 42px; height: 42px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--azul-deep), var(--azul-mid));
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800; font-size: 0.95rem; color: var(--amarelo);
+      flex-shrink: 0;
+    }
+    .dep-name { font-weight: 700; font-size: 0.88rem; color: var(--escuro); }
+    .dep-cat { font-size: 0.75rem; color: var(--cinza-t); margin-top: 1px; }
+
+    /* ── CTA CENTRAL ── */
+    .cta-banner {
+      background: linear-gradient(135deg, #F5C518 0%, #E8B800 50%, #D4A700 100%);
+      padding: 5.5rem 6%;
+      text-align: center;
+      position: relative; overflow: hidden;
+    }
+    .cta-banner::before {
+      content: '';
+      position: absolute; top: -60px; left: 50%; transform: translateX(-50%);
+      width: 600px; height: 200px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 50%;
+    }
+    .cta-banner h2 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(2.2rem, 5vw, 3.8rem); font-weight: 900;
+      color: var(--azul-deep); margin-bottom: 0.7rem; line-height: 1.05;
+      position: relative;
+    }
+    .cta-banner p { color: rgba(26,58,108,0.7); font-size: 1rem; margin-bottom: 2.2rem; position: relative; }
+    .cta-btn-wpp {
+      display: inline-flex; align-items: center; gap: 0.7rem;
+      background: var(--verde-wpp); color: white;
+      padding: 1.05rem 2.4rem; border-radius: 8px;
+      font-weight: 700; font-size: 1rem; text-decoration: none;
+      box-shadow: 0 8px 28px rgba(0,0,0,0.2);
+      transition: background .2s, transform .15s, box-shadow .2s;
+      position: relative;
+    }
+    .cta-btn-wpp:hover { background: var(--verde-wpp2); transform: translateY(-2px); box-shadow: 0 14px 36px rgba(0,0,0,0.25); }
+    .cta-btn-wpp svg { width: 22px; height: 22px; }
+
+    /* ── LOCALIZAÇÃO ── */
+    .localizacao {
+      padding: 5.5rem 6%;
+      background: var(--cinza-f);
+    }
+    .loc-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 4.5rem; align-items: start;
+    }
+    .loc-info h2 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem); font-weight: 800;
+      color: var(--azul-deep); margin-bottom: 0.4rem; line-height: 1.05;
+    }
+    .loc-info > p { color: var(--cinza-t); margin-bottom: 2.2rem; font-size: 0.9rem; line-height: 1.65; }
+    .loc-item {
+      display: flex; gap: 1rem; align-items: flex-start;
+      margin-bottom: 1.4rem;
+    }
+    .loc-item-icon {
+      width: 42px; height: 42px; border-radius: 10px; flex-shrink: 0;
+      background: linear-gradient(135deg, var(--azul-deep), var(--azul-mid));
+      color: var(--amarelo);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+      box-shadow: 0 4px 12px rgba(26,58,108,0.2);
+    }
+    .loc-item-text strong { display: block; font-size: 0.85rem; color: var(--escuro); margin-bottom: 0.2rem; font-weight: 700; }
+    .loc-item-text span { font-size: 0.83rem; color: var(--cinza-t); line-height: 1.6; }
+    .wpp-link-loc {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      background: var(--verde-wpp); color: white;
+      padding: 0.8rem 1.5rem; border-radius: 8px;
+      font-weight: 700; font-size: 0.9rem; text-decoration: none;
+      margin-top: 1.8rem;
+      transition: background .2s, transform .15s;
+      box-shadow: 0 4px 14px rgba(37,211,102,0.25);
+    }
+    .wpp-link-loc:hover { background: var(--verde-wpp2); transform: translateY(-1px); }
+    .wpp-link-loc svg { width: 18px; height: 18px; }
+    .map-container {
+      border-radius: 18px; overflow: hidden;
+      box-shadow: 0 16px 50px rgba(0,0,0,0.14);
+      border: 2px solid var(--cinza-border);
+      height: 390px;
+    }
+    .map-container iframe { width: 100%; height: 100%; border: none; display: block; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--azul-deep);
+      padding: 3.5rem 6% 2rem;
+    }
+    .footer-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1.5rem;
+    }
+    .footer-logo-placeholder {
+      display: flex; align-items: center; gap: 0.5rem;
+      border: 1.5px dashed rgba(245,197,24,0.3);
+      border-radius: 8px;
+      padding: 0.3rem 0.9rem;
+      color: rgba(255,255,255,0.35);
+      font-size: 0.75rem; font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+    .footer-links { display: flex; gap: 1.8rem; flex-wrap: wrap; }
+    .footer-links a { color: rgba(255,255,255,0.5); text-decoration: none; font-size: 0.83rem; transition: color .2s; }
+    .footer-links a:hover { color: var(--amarelo); }
+    .footer-copy { color: rgba(255,255,255,0.35); font-size: 0.76rem; text-align: center; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.07); max-width: 1100px; margin-left: auto; margin-right: auto; }
+
+    /* Redes sociais nav */
+    .social-btn {
+      width: 34px; height: 34px; border-radius: 7px;
+      display: flex; align-items: center; justify-content: center;
+      text-decoration: none;
+      transition: transform .2s, opacity .2s;
+      opacity: 0.8;
+    }
+    .social-btn:hover { transform: translateY(-2px); opacity: 1; }
+    .social-btn svg { width: 17px; height: 17px; }
+    .social-btn.instagram { background: linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888); }
+    .social-btn.facebook  { background: #1877F2; }
+    .social-btn.tiktok    { background: #111; }
+
+    /* Footer social */
+    .footer-social-section {
+      max-width: 1100px; margin: 2rem auto 0;
+      padding-top: 1.8rem; border-top: 1px solid rgba(255,255,255,0.07);
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1.2rem;
+    }
+    .footer-social-label { color: rgba(255,255,255,0.45); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.8px; text-transform: uppercase; }
+    .footer-social-icons { display: flex; gap: 0.5rem; }
+    .footer-social-btn {
+      width: 40px; height: 40px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      text-decoration: none;
+      transition: transform .2s, opacity .2s;
+      opacity: 0.75;
+    }
+    .footer-social-btn:hover { transform: translateY(-3px); opacity: 1; }
+    .footer-social-btn svg { width: 19px; height: 19px; }
+    .footer-social-btn.instagram { background: linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888); }
+    .footer-social-btn.facebook  { background: #1877F2; }
+    .footer-social-btn.tiktok    { background: #111; border: 1px solid rgba(255,255,255,0.1); }
+    .footer-social-btn.youtube   { background: #FF0000; }
+    .footer-social-btn.whatsapp  { background: #25D366; }
+
+    /* ── WPP FLUTUANTE ── */
+    .wpp-float {
+      position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 200;
+      width: 58px; height: 58px; border-radius: 50%;
+      background: var(--verde-wpp);
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 6px 24px rgba(37,211,102,0.45);
+      text-decoration: none;
+      transition: transform .2s, background .2s;
+      animation: pulse-wpp 2.8s infinite;
+    }
+    .wpp-float:hover { transform: scale(1.1); background: var(--verde-wpp2); animation: none; }
+    .wpp-float svg { width: 30px; height: 30px; color: white; }
+    @keyframes pulse-wpp {
+      0%, 100% { box-shadow: 0 6px 24px rgba(37,211,102,0.45); }
+      50% { box-shadow: 0 6px 44px rgba(37,211,102,0.7); }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .hero-inner { grid-template-columns: 1fr; gap: 3rem; }
+      .orcamento-card { max-width: 520px; }
+      .loc-inner { grid-template-columns: 1fr; }
+      .map-container { height: 280px; }
+      .nav-links, .nav-cta { display: none; }
+      .nav-hamburger { display: flex; }
+      .trust-item { padding-right: 1.5rem; margin-right: 1.5rem; }
+    }
+    @media (max-width: 600px) {
+      .hero { padding: 90px 5% 50px; }
+      .hero-trust { gap: 0; }
+      .trust-item { padding-right: 1.2rem; margin-right: 1.2rem; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <div class="nav-logo-placeholder"><span>🖼️</span> SUA LOGO</div>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#categorias">Categorias</a></li>
+    <li><a href="#porque">Diferenciais</a></li>
+    <li><a href="#depoimentos">Depoimentos</a></li>
+    <li><a href="#localizacao">Localização</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="https://instagram.com/suaautoescola" class="social-btn instagram" target="_blank" title="Instagram">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+    </a>
+    <a href="https://facebook.com/suaautoescola" class="social-btn facebook" target="_blank" title="Facebook">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+    </a>
+    <a href="https://tiktok.com/@suaautoescola" class="social-btn tiktok" target="_blank" title="TikTok">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
+    </a>
+    <a href="#orcamento" class="nav-cta">Solicitar Orçamento</a>
+  </div>
+  <div class="nav-hamburger" onclick="document.querySelector('.nav-links').style.cssText='display:flex;flex-direction:column;position:fixed;top:68px;left:0;right:0;background:#0F2347;padding:1.5rem 6%;gap:1.2rem;z-index:99;'">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-glow-left"></div>
+  <div class="hero-inner">
+    <div>
+      <div class="hero-badge">Autoescola #1 da Região</div>
+      <h1>
+        <span class="h1-small">Sua CNH começa aqui</span>
+        Dirija com <em>confiança.</em>
+      </h1>
+      <p class="hero-sub">
+        Mais de <strong>4.800 motoristas aprovados</strong> em 15 anos.
+        Instrutores certificados, frota moderna e a maior taxa de aprovação na primeira prova da região.
+      </p>
+      <div class="hero-btns">
+        <a href="#orcamento" class="btn-wpp">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.137.565 4.146 1.55 5.878L0 24l6.294-1.524A11.944 11.944 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.794 9.794 0 01-5.007-1.371l-.359-.213-3.735.904.946-3.63-.234-.373A9.796 9.796 0 012.182 12c0-5.42 4.398-9.818 9.818-9.818 5.42 0 9.818 4.398 9.818 9.818S17.42 21.818 12 21.818z"/></svg>
+          Quero minha CNH agora
+        </a>
+        <a href="#porque" class="btn-ghost">Conheça a escola →</a>
+      </div>
+      <div class="hero-trust">
+        <div class="trust-item">
+          <span class="trust-num">4.800+</span>
+          <span class="trust-label">Motoristas aprovados</span>
+        </div>
+        <div class="trust-item">
+          <span class="trust-num">15</span>
+          <span class="trust-label">Anos no mercado</span>
+        </div>
+        <div class="trust-item">
+          <span class="trust-num">94%</span>
+          <span class="trust-label">Aprovação 1ª prova</span>
+        </div>
+        <div class="trust-item">
+          <span class="trust-num">5★</span>
+          <span class="trust-label">Google Reviews</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD ORÇAMENTO -->
+    <div class="orcamento-card" id="orcamento">
+      <h3>Receba seu orçamento</h3>
+      <p>Preencha abaixo e um consultor entra em contato pelo WhatsApp em minutos.</p>
+
+      <div class="card-highlight">
+        🎯 Atendimento rápido — sem enrolação, sem spam
+      </div>
+
+      <div class="form-group">
+        <label>Seu nome</label>
+        <input type="text" id="nome" placeholder="Como podemos te chamar?" />
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>WhatsApp</label>
+          <input type="tel" id="tel" placeholder="(11) 99999-9999" />
+        </div>
+        <div class="form-group">
+          <label>Categoria</label>
+          <select id="categoria">
+            <option value="">Selecione</option>
+            <option value="A - Moto">A — Moto</option>
+            <option value="B - Carro">B — Carro</option>
+            <option value="AB - Moto e Carro">AB — Moto + Carro</option>
+            <option value="C - Caminhão">C — Caminhão</option>
+            <option value="D - Ônibus">D — Ônibus</option>
+            <option value="E - Combinado">E — Combinado</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Sua situação atual</label>
+        <select id="situacao">
+          <option value="">Selecione</option>
+          <option value="Não tenho CNH">🆕 Primeira habilitação</option>
+          <option value="Quero adicionar categoria">➕ Adicionar categoria</option>
+          <option value="CNH suspensa/cassada">🔄 CNH suspensa ou cassada</option>
+          <option value="Renovação">📋 Renovação / reciclagem</option>
+        </select>
+      </div>
+
+      <button class="btn-submit-wpp" onclick="enviarWpp()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.137.565 4.146 1.55 5.878L0 24l6.294-1.524A11.944 11.944 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.794 9.794 0 01-5.007-1.371l-.359-.213-3.735.904.946-3.63-.234-.373A9.796 9.796 0 012.182 12c0-5.42 4.398-9.818 9.818-9.818 5.42 0 9.818 4.398 9.818 9.818S17.42 21.818 12 21.818z"/></svg>
+        Falar com consultor agora
+      </button>
+      <p class="card-seguro">🔒 Seus dados são usados apenas para seu atendimento</p>
+    </div>
+  </div>
+</section>
+
+<!-- CATEGORIAS -->
+<section class="categorias" id="categorias">
+  <div class="cat-header">
+    <span class="section-eyebrow">O que oferecemos</span>
+    <h2>Todas as categorias de <span>CNH</span></h2>
+  </div>
+  <div class="cat-grid">
+    <div class="cat-card">
+      <span class="cat-icon">🏍️</span>
+      <h4>Cat. A</h4>
+      <p>Motocicletas e motonetas. Ideal para agilidade e economia no dia a dia.</p>
+    </div>
+    <div class="cat-card">
+      <span class="cat-icon">🚗</span>
+      <h4>Cat. B</h4>
+      <p>Veículos de passeio. A categoria mais solicitada do Brasil — e a que mais dominamos.</p>
+    </div>
+    <div class="cat-card">
+      <span class="cat-icon">🏍️🚗</span>
+      <h4>Cat. AB</h4>
+      <p>Moto e carro juntos. Mais liberdade com desconto especial na combinação.</p>
+    </div>
+    <div class="cat-card">
+      <span class="cat-icon">🚛</span>
+      <h4>Cat. C</h4>
+      <p>Caminhões e carga. Abre portas no mercado de trabalho em todo o Brasil.</p>
+    </div>
+    <div class="cat-card">
+      <span class="cat-icon">🚌</span>
+      <h4>Cat. D</h4>
+      <p>Ônibus e vans. Formação completa para quem trabalha com transporte coletivo.</p>
+    </div>
+    <div class="cat-card">
+      <span class="cat-icon">🚛🚌</span>
+      <h4>Cat. E</h4>
+      <p>Combinações e carretas. A habilitação mais completa para profissionais do setor.</p>
+    </div>
+  </div>
+</section>
+
+<!-- POR QUE ESCOLHER -->
+<section class="porque" id="porque">
+  <div class="porque-inner">
+    <div class="porque-header">
+      <span class="section-eyebrow" style="color:var(--azul-mid)">Por que a ViaLivre</span>
+      <h2>Não somos só uma autoescola.<br>Somos o seu caminho até a CNH.</h2>
+      <p>Do primeiro contato até a carteirinha na mão, você nunca está sozinho. Veja o que nos diferencia.</p>
+    </div>
+    <div class="diferenciais-grid">
+      <div class="dif-card">
+        <div class="dif-icon">🎯</div>
+        <h4>94% de aprovação na primeira tentativa</h4>
+        <p>Nossa metodologia é testada e comprovada. Você chega à prova preparado para passar — na teoria e na prática.</p>
+      </div>
+      <div class="dif-card">
+        <div class="dif-icon">👨‍🏫</div>
+        <h4>Instrutores certificados e pacientes</h4>
+        <p>Cada instrutor é habilitado pelo DETRAN-SP e passa por capacitação pedagógica contínua. Sem pressa, sem pressão.</p>
+      </div>
+      <div class="dif-card">
+        <div class="dif-icon">📱</div>
+        <h4>Acompanhamento digital completo</h4>
+        <p>Agendamentos, provas, documentação e status do processo tudo em um só lugar, direto do seu celular.</p>
+      </div>
+      <div class="dif-card">
+        <div class="dif-icon">🚘</div>
+        <h4>Frota moderna e segura</h4>
+        <p>Veículos com air-bag, ar-condicionado e duplo comando. Aprenda com conforto e segurança real.</p>
+      </div>
+      <div class="dif-card">
+        <div class="dif-icon">💳</div>
+        <h4>Parcelamos em até 12x sem juros</h4>
+        <p>Cartão, boleto, Pix ou transferência. Temos condições para todos os bolsos — fale com a gente.</p>
+      </div>
+      <div class="dif-card">
+        <div class="dif-icon">🕐</div>
+        <h4>Horários que cabem na sua rotina</h4>
+        <p>Segunda a sábado, manhã, tarde e noite. Você escolhe quando aprender — sem abrir mão da sua vida.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DEPOIMENTOS -->
+<section class="depoimentos" id="depoimentos">
+  <div class="dep-inner">
+    <div class="dep-header">
+      <span class="section-eyebrow" style="color:var(--azul-mid)">Depoimentos</span>
+      <h2>Mais de 4.800 aprovados.<br>Cada um tem uma história.</h2>
+      <p>Veja o que nossos alunos falam sobre a experiência na ViaLivre.</p>
+    </div>
+    <div class="dep-grid">
+      <div class="dep-card">
+        <div class="dep-stars">★★★★★</div>
+        <blockquote>"Tirei minha CNH B na primeira tentativa! Os instrutores são super pacientes e a escola é muito bem organizada. Quem tem medo de aprender a dirigir vai se sentir em casa aqui."</blockquote>
+        <div class="dep-author">
+          <div class="dep-avatar">AM</div>
+          <div>
+            <div class="dep-name">Ana Marcela S.</div>
+            <div class="dep-cat">CNH Categoria B · 2024</div>
+          </div>
+        </div>
+      </div>
+      <div class="dep-card">
+        <div class="dep-stars">★★★★★</div>
+        <blockquote>"Fiz a categoria C aqui depois de 10 anos com a B. Processo totalmente claro, sem burocracia. Passei na teoria e na prática em menos de 4 meses. Valeu cada centavo."</blockquote>
+        <div class="dep-author">
+          <div class="dep-avatar">RL</div>
+          <div>
+            <div class="dep-name">Roberto Lima</div>
+            <div class="dep-cat">CNH Categoria C · 2024</div>
+          </div>
+        </div>
+      </div>
+      <div class="dep-card">
+        <div class="dep-stars">★★★★★</div>
+        <blockquote>"O atendimento pelo WhatsApp foi rápido demais. Tirei todas as dúvidas antes de fechar, e tudo correu exatamente como prometeram. Transparência do começo ao fim."</blockquote>
+        <div class="dep-author">
+          <div class="dep-avatar">JF</div>
+          <div>
+            <div class="dep-name">Juliana Ferreira</div>
+            <div class="dep-cat">CNH Categoria AB · 2025</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BANNER -->
+<section class="cta-banner">
+  <h2>Pronto para tirar sua CNH?<br>A gente cuida de tudo.</h2>
+  <p>Fale com um consultor agora e receba um orçamento personalizado em minutos.</p>
+  <a href="#orcamento" class="cta-btn-wpp">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.137.565 4.146 1.55 5.878L0 24l6.294-1.524A11.944 11.944 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.794 9.794 0 01-5.007-1.371l-.359-.213-3.735.904.946-3.63-.234-.373A9.796 9.796 0 012.182 12c0-5.42 4.398-9.818 9.818-9.818 5.42 0 9.818 4.398 9.818 9.818S17.42 21.818 12 21.818z"/></svg>
+    Solicitar orçamento agora
+  </a>
+</section>
+
+<!-- LOCALIZAÇÃO -->
+<section class="localizacao" id="localizacao">
+  <div class="loc-inner">
+    <div class="loc-info">
+      <span class="section-eyebrow" style="color:var(--azul-mid)">Onde estamos</span>
+      <h2>Venha nos<br>conhecer pessoalmente</h2>
+      <p>Localização de fácil acesso, com estacionamento e próximo ao transporte público.</p>
+
+      <div class="loc-item">
+        <div class="loc-item-icon">📍</div>
+        <div class="loc-item-text">
+          <strong>Endereço</strong>
+          <span>Av. das Nações Unidas, 1500 — Sala 42<br>Santo André, São Paulo — SP</span>
+        </div>
+      </div>
+      <div class="loc-item">
+        <div class="loc-item-icon">🕐</div>
+        <div class="loc-item-text">
+          <strong>Horário de atendimento</strong>
+          <span>Segunda a Sexta: 8h às 18h<br>Sábado: 8h às 13h</span>
+        </div>
+      </div>
+      <div class="loc-item">
+        <div class="loc-item-icon">📞</div>
+        <div class="loc-item-text">
+          <strong>Telefone</strong>
+          <span>(11) 4000-0000</span>
+        </div>
+      </div>
+      <div class="loc-item">
+        <div class="loc-item-icon">✉️</div>
+        <div class="loc-item-text">
+          <strong>E-mail</strong>
+          <span>contato@vialivre.com.br</span>
+        </div>
+      </div>
+
+      <a href="https://wa.me/5511900000000?text=Ol%C3%A1!%20Gostaria%20de%20saber%20como%20chegar%20na%20ViaLivre." class="wpp-link-loc" target="_blank">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.137.565 4.146 1.55 5.878L0 24l6.294-1.524A11.944 11.944 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.794 9.794 0 01-5.007-1.371l-.359-.213-3.735.904.946-3.63-.234-.373A9.796 9.796 0 012.182 12c0-5.42 4.398-9.818 9.818-9.818 5.42 0 9.818 4.398 9.818 9.818S17.42 21.818 12 21.818z"/></svg>
+        Como chegar
+      </a>
+    </div>
+
+    <div class="map-container">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3655.1!2d-46.538!3d-23.648!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjPCsDM4JzU0LjAiUyA0NsKwMzInMTYuOCJX!5e0!3m2!1spt-BR!2sbr!4v1234567890"
+        allowfullscreen="" loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade">
+      </iframe>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">
+      <div class="footer-logo-placeholder">🖼️ SUA LOGO AQUI</div>
+    </div>
+    <div class="footer-links">
+      <a href="#categorias">Categorias</a>
+      <a href="#porque">Sobre nós</a>
+      <a href="#depoimentos">Depoimentos</a>
+      <a href="#localizacao">Localização</a>
+      <a href="#orcamento">Orçamento</a>
+    </div>
+  </div>
+
+  <div class="footer-social-section">
+    <span class="footer-social-label">📲 Nos siga nas redes</span>
+    <div class="footer-social-icons">
+      <a href="https://instagram.com/suaautoescola" class="footer-social-btn instagram" target="_blank" title="Instagram">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+      </a>
+      <a href="https://facebook.com/suaautoescola" class="footer-social-btn facebook" target="_blank" title="Facebook">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+      </a>
+      <a href="https://tiktok.com/@suaautoescola" class="footer-social-btn tiktok" target="_blank" title="TikTok">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
+      </a>
+      <a href="https://youtube.com/@suaautoescola" class="footer-social-btn youtube" target="_blank" title="YouTube">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+      </a>
+      <a href="https://wa.me/5511900000000" class="footer-social-btn whatsapp" target="_blank" title="WhatsApp">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.137.565 4.146 1.55 5.878L0 24l6.294-1.524A11.944 11.944 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.794 9.794 0 01-5.007-1.371l-.359-.213-3.735.904.946-3.63-.234-.373A9.796 9.796 0 012.182 12c0-5.42 4.398-9.818 9.818-9.818 5.42 0 9.818 4.398 9.818 9.818S17.42 21.818 12 21.818z"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <p class="footer-copy">© 2025 AutoEscola ViaLivre. CNPJ 00.000.000/0001-00 — Credenciada pelo DETRAN-SP. Todos os direitos reservados.</p>
+</footer>
+
+<!-- WPP FLUTUANTE -->
+<a href="https://wa.me/5511900000000?text=Ol%C3%A1!%20Tenho%20interesse%20em%20tirar%20minha%20CNH%20na%20ViaLivre.%20Pode%20me%20passar%20mais%20informa%C3%A7%C3%B5es%3F"
+   class="wpp-float" target="_blank" title="Fale pelo WhatsApp">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+    <path d="M12 0C5.373 0 0 5.373 0 12c0 2.137.565 4.146 1.55 5.878L0 24l6.294-1.524A11.944 11.944 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.794 9.794 0 01-5.007-1.371l-.359-.213-3.735.904.946-3.63-.234-.373A9.796 9.796 0 012.182 12c0-5.42 4.398-9.818 9.818-9.818 5.42 0 9.818 4.398 9.818 9.818S17.42 21.818 12 21.818z"/>
+  </svg>
+</a>
+
+<script>
+  const NUMERO_WPP = "5511900000000";
+
+  function enviarWpp() {
+    const nome = document.getElementById('nome').value.trim();
+    const tel = document.getElementById('tel').value.trim();
+    const categoria = document.getElementById('categoria').value;
+    const situacao = document.getElementById('situacao').value;
+
+    if (!nome) { alert('Por favor, informe seu nome.'); return; }
+    if (!categoria) { alert('Por favor, selecione a categoria desejada.'); return; }
+
+    let msg = `Olá! 👋 Vim pelo site e gostaria de saber mais sobre a *AutoEscola ViaLivre*.
+
+*Nome:* ${nome}
+*Categoria:* ${categoria}`;
+
+    if (situacao) msg += `\n*Situação:* ${situacao}`;
+    if (tel) msg += `\n*WhatsApp:* ${tel}`;
+
+    msg += `\n\nPoderia me passar um orçamento? 😊`;
+
+    const url = `https://wa.me/${NUMERO_WPP}?text=${encodeURIComponent(msg)}`;
+    window.open(url, '_blank');
+  }
+
+  document.getElementById('tel').addEventListener('input', function(e) {
+    let v = e.target.value.replace(/\D/g, '');
+    if (v.length <= 11) {
+      v = v.replace(/(\d{2})(\d)/, '($1) $2');
+      v = v.replace(/(\d{5})(\d)/, '$1-$2');
+    }
+    e.target.value = v;
+  });
+</script>
+
+</body>
+</html>
