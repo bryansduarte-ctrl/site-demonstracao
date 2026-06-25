@@ -576,6 +576,100 @@
       50% { box-shadow: 0 6px 44px rgba(37,211,102,0.7); }
     }
 
+    /* ── COMO FUNCIONA ── */
+    .como-funciona {
+      padding: 6rem 6%;
+      background: var(--branco);
+      position: relative;
+    }
+    .cf-inner { max-width: 1100px; margin: 0 auto; }
+    .cf-header { text-align: center; margin-bottom: 3.5rem; }
+    .cf-header h2 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 800; color: var(--azul-deep);
+      line-height: 1.05; margin-bottom: 0.6rem;
+    }
+    .cf-header p { color: var(--cinza-t); font-size: 0.95rem; max-width: 520px; margin: 0 auto; line-height: 1.65; }
+    .cf-steps {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1.4rem; position: relative;
+    }
+    /* linha pontilhada conectando os passos */
+    .cf-steps::before {
+      content: '';
+      position: absolute; top: 46px; left: 16%; right: 16%;
+      height: 2px;
+      background: repeating-linear-gradient(to right, var(--amarelo) 0, var(--amarelo) 8px, transparent 8px, transparent 16px);
+      opacity: 0.4; z-index: 0;
+    }
+    .cf-step {
+      background: white; border-radius: 16px; padding: 2.2rem 1.6rem;
+      border: 1.5px solid var(--cinza-border); text-align: center;
+      position: relative; z-index: 1;
+      transition: border-color .25s, box-shadow .25s, transform .25s;
+    }
+    .cf-step:hover {
+      border-color: rgba(245,197,24,0.4);
+      box-shadow: 0 14px 44px rgba(26,58,108,0.1);
+      transform: translateY(-5px);
+    }
+    .cf-num {
+      width: 56px; height: 56px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--azul-deep), var(--azul-mid));
+      color: var(--amarelo);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.7rem; font-weight: 900;
+      margin: 0 auto 1.3rem;
+      box-shadow: 0 6px 18px rgba(26,58,108,0.25);
+      border: 3px solid white;
+    }
+    .cf-step h4 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.4rem; font-weight: 800; color: var(--azul-deep);
+      margin-bottom: 0.5rem; letter-spacing: 0.3px;
+    }
+    .cf-step p { font-size: 0.86rem; color: var(--cinza-t); line-height: 1.7; }
+    .cf-cta { text-align: center; margin-top: 3rem; }
+    .cf-cta a {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      background: var(--verde-wpp); color: white;
+      padding: 0.95rem 2rem; border-radius: 8px;
+      font-weight: 700; font-size: 0.95rem; text-decoration: none;
+      box-shadow: 0 6px 20px rgba(37,211,102,0.28);
+      transition: background .2s, transform .15s, box-shadow .2s;
+    }
+    .cf-cta a:hover { background: var(--verde-wpp2); transform: translateY(-2px); box-shadow: 0 10px 28px rgba(37,211,102,0.38); }
+    .cf-cta a svg { width: 20px; height: 20px; }
+
+    /* ── ANIMAÇÃO DE SCROLL ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1; transform: none; transition: none; }
+    }
+
+    /* ── MENU MOBILE ── */
+    .nav-links.open {
+      display: flex; flex-direction: column;
+      position: fixed; top: 68px; left: 0; right: 0;
+      background: var(--azul-deep);
+      padding: 1.5rem 6%; gap: 1.2rem; z-index: 99;
+      border-bottom: 1px solid rgba(245,197,24,0.15);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.4);
+    }
+    .nav-hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-hamburger.active span:nth-child(2) { opacity: 0; }
+    .nav-hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    .nav-hamburger span { transition: transform .25s, opacity .25s; }
+
     /* ── RESPONSIVE ── */
     @media (max-width: 900px) {
       .hero-inner { grid-template-columns: 1fr; gap: 3rem; }
@@ -585,6 +679,8 @@
       .nav-links, .nav-cta { display: none; }
       .nav-right .social-btn { display: none; }
       .nav-hamburger { display: flex; }
+      .cf-steps { grid-template-columns: 1fr; gap: 1.2rem; }
+      .cf-steps::before { display: none; }
     }
     @media (max-width: 600px) {
       .hero { padding: 96px 6% 56px; }
@@ -625,8 +721,9 @@
   <div class="nav-logo">
     <div class="nav-logo-placeholder"><span>🖼️</span> SUA LOGO</div>
   </div>
-  <ul class="nav-links">
+  <ul class="nav-links" id="navLinks">
     <li><a href="#categorias">Categorias</a></li>
+    <li><a href="#como-funciona">Como funciona</a></li>
     <li><a href="#porque">Diferenciais</a></li>
     <li><a href="#depoimentos">Depoimentos</a></li>
     <li><a href="#localizacao">Localização</a></li>
@@ -643,7 +740,7 @@
     </a>
     <a href="#orcamento" class="nav-cta">Solicitar Orçamento</a>
   </div>
-  <div class="nav-hamburger" onclick="document.querySelector('.nav-links').style.cssText='display:flex;flex-direction:column;position:fixed;top:68px;left:0;right:0;background:#0F2347;padding:1.5rem 6%;gap:1.2rem;z-index:99;'">
+  <div class="nav-hamburger" id="navHamburger" onclick="toggleMenu()" aria-label="Abrir menu" role="button">
     <span></span><span></span><span></span>
   </div>
 </nav>
@@ -742,7 +839,7 @@
 
 <!-- CATEGORIAS -->
 <section class="categorias" id="categorias">
-  <div class="cat-header">
+  <div class="cat-header reveal">
     <span class="section-eyebrow">O que oferecemos</span>
     <h2>Todas as categorias de <span>CNH</span></h2>
   </div>
@@ -780,10 +877,44 @@
   </div>
 </section>
 
+<!-- COMO FUNCIONA -->
+<section class="como-funciona" id="como-funciona">
+  <div class="cf-inner">
+    <div class="cf-header reveal">
+      <span class="section-eyebrow" style="color:var(--azul-mid)">Simples assim</span>
+      <h2>Da matrícula à CNH em <span style="color:var(--amarelo2)">3 passos</span></h2>
+      <p>Sem burocracia, sem dor de cabeça. A gente conduz você por todo o processo — você só se preocupa em aprender.</p>
+    </div>
+    <div class="cf-steps">
+      <div class="cf-step reveal">
+        <div class="cf-num">1</div>
+        <h4>Matrícula</h4>
+        <p>Você fala com a gente pelo WhatsApp, escolhe a categoria e a gente cuida de toda a documentação e do exame médico.</p>
+      </div>
+      <div class="cf-step reveal">
+        <div class="cf-num">2</div>
+        <h4>Aulas</h4>
+        <p>Aulas teóricas e práticas no horário que cabe na sua rotina, com instrutores pacientes e carros modernos de duplo comando.</p>
+      </div>
+      <div class="cf-step reveal">
+        <div class="cf-num">3</div>
+        <h4>CNH na mão</h4>
+        <p>A gente agenda suas provas, acompanha cada etapa e comemora junto quando sua carteira chega. Pronto pra dirigir!</p>
+      </div>
+    </div>
+    <div class="cf-cta reveal">
+      <a href="#orcamento">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.137.565 4.146 1.55 5.878L0 24l6.294-1.524A11.944 11.944 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.794 9.794 0 01-5.007-1.371l-.359-.213-3.735.904.946-3.63-.234-.373A9.796 9.796 0 012.182 12c0-5.42 4.398-9.818 9.818-9.818 5.42 0 9.818 4.398 9.818 9.818S17.42 21.818 12 21.818z"/></svg>
+        Começar minha matrícula
+      </a>
+    </div>
+  </div>
+</section>
+
 <!-- POR QUE ESCOLHER -->
 <section class="porque" id="porque">
   <div class="porque-inner">
-    <div class="porque-header">
+    <div class="porque-header reveal">
       <span class="section-eyebrow" style="color:var(--azul-mid)">Por que a ViaLivre</span>
       <h2>Não somos só uma autoescola.<br>Somos o seu caminho até a CNH.</h2>
       <p>Do primeiro contato até a carteirinha na mão, você nunca está sozinho. Veja o que nos diferencia.</p>
@@ -826,7 +957,7 @@
 <!-- DEPOIMENTOS -->
 <section class="depoimentos" id="depoimentos">
   <div class="dep-inner">
-    <div class="dep-header">
+    <div class="dep-header reveal">
       <span class="section-eyebrow" style="color:var(--azul-mid)">Depoimentos</span>
       <h2>Mais de 4.800 aprovados.<br>Cada um tem uma história.</h2>
       <p>Veja o que nossos alunos falam sobre a experiência na ViaLivre.</p>
@@ -1014,6 +1145,39 @@
     }
     e.target.value = v;
   });
+
+  // ── MENU MOBILE ──
+  const navLinks = document.getElementById('navLinks');
+  const navHamburger = document.getElementById('navHamburger');
+
+  function toggleMenu() {
+    navLinks.classList.toggle('open');
+    navHamburger.classList.toggle('active');
+  }
+
+  // fecha o menu ao clicar em qualquer link
+  navLinks.querySelectorAll('a').forEach(function(link) {
+    link.addEventListener('click', function() {
+      navLinks.classList.remove('open');
+      navHamburger.classList.remove('active');
+    });
+  });
+
+  // ── ANIMAÇÃO DE SCROLL ──
+  const revealEls = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    revealEls.forEach(function(el) { observer.observe(el); });
+  } else {
+    revealEls.forEach(function(el) { el.classList.add('is-visible'); });
+  }
 </script>
 
 </body>
