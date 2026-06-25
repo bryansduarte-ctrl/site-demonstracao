@@ -289,8 +289,8 @@
     }
     .cat-header h2 span { color: var(--amarelo); }
     .cat-grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-      gap: 1rem; max-width: 1100px; margin: 0 auto;
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1.2rem; max-width: 900px; margin: 0 auto;
     }
     .cat-card {
       background: rgba(255,255,255,0.05);
@@ -706,6 +706,7 @@
       .nav-hamburger { display: flex; }
       .cf-steps { grid-template-columns: 1fr; gap: 1.2rem; }
       .cf-steps::before { display: none; }
+      .cat-grid { grid-template-columns: repeat(2, 1fr); max-width: 520px; }
     }
     @media (max-width: 600px) {
       .hero { padding: 96px 6% 56px; }
@@ -736,6 +737,7 @@
       .trust-item:nth-child(odd) { border-right: 1px solid rgba(255,255,255,0.1); padding-right: 1.4rem; }
       .trust-num { font-size: 2rem; }
       .form-row { grid-template-columns: 1fr; }
+      .cat-grid { grid-template-columns: 1fr; max-width: 360px; }
     }
   </style>
 </head>
