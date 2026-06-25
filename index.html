@@ -3,7 +3,34 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AutoEscola ViaLivre — Sua CNH com Segurança</title>
+  <title>AutoEscola ViaLivre — Tire sua CNH com segurança em Santo André</title>
+
+  <!-- SEO -->
+  <meta name="description" content="Tire sua CNH na AutoEscola ViaLivre em Santo André. 94% de aprovação na 1ª prova, instrutores certificados pelo DETRAN-SP, parcelamento em até 12x. Categorias A, B, C, D e E. Fale no WhatsApp e receba seu orçamento." />
+  <meta name="keywords" content="autoescola santo andré, tirar cnh, primeira habilitação, cnh categoria b, autoescola perto de mim, carteira de motorista, detran sp, adicionar categoria cnh" />
+  <meta name="author" content="AutoEscola ViaLivre" />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#0F2347" />
+  <link rel="canonical" href="https://vialivre.com.br/" />
+
+  <!-- Open Graph (preview no WhatsApp, Facebook, LinkedIn) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="AutoEscola ViaLivre" />
+  <meta property="og:title" content="AutoEscola ViaLivre — Sua CNH com segurança" />
+  <meta property="og:description" content="94% de aprovação na 1ª prova. Instrutores certificados, frota moderna e parcelamento em até 12x. Fale no WhatsApp e receba seu orçamento em minutos." />
+  <meta property="og:url" content="https://vialivre.com.br/" />
+  <meta property="og:locale" content="pt_BR" />
+  <!-- Troque pela URL de uma imagem real 1200x630 (logo + foto da escola) -->
+  <meta property="og:image" content="https://vialivre.com.br/preview.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="AutoEscola ViaLivre — Sua CNH com segurança" />
+  <meta name="twitter:description" content="94% de aprovação na 1ª prova. Parcelamento em até 12x. Fale no WhatsApp e receba seu orçamento." />
+  <meta name="twitter:image" content="https://vialivre.com.br/preview.jpg" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
@@ -656,6 +683,57 @@
     .cf-cta a:hover { background: var(--verde-wpp2); transform: translateY(-2px); box-shadow: 0 10px 28px rgba(37,211,102,0.38); }
     .cf-cta a svg { width: 20px; height: 20px; }
 
+    /* ── FAQ ── */
+    .faq {
+      padding: 6rem 6%;
+      background: var(--cinza-f);
+    }
+    .faq-inner { max-width: 800px; margin: 0 auto; }
+    .faq-header { text-align: center; margin-bottom: 3rem; }
+    .faq-header h2 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 800; color: var(--azul-deep);
+      line-height: 1.05; margin-bottom: 0.6rem;
+    }
+    .faq-header p { color: var(--cinza-t); font-size: 0.95rem; line-height: 1.65; }
+    .faq-item {
+      background: white; border: 1.5px solid var(--cinza-border);
+      border-radius: 12px; margin-bottom: 0.9rem;
+      overflow: hidden; transition: border-color .25s, box-shadow .25s;
+    }
+    .faq-item[open] { border-color: rgba(245,197,24,0.45); box-shadow: 0 8px 28px rgba(26,58,108,0.08); }
+    .faq-item summary {
+      list-style: none; cursor: pointer;
+      padding: 1.3rem 1.5rem;
+      font-size: 0.98rem; font-weight: 700; color: var(--azul-deep);
+      display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+      transition: color .2s;
+    }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary:hover { color: var(--azul-mid); }
+    .faq-item summary::after {
+      content: '+';
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.8rem; font-weight: 700; color: var(--amarelo2);
+      line-height: 1; flex-shrink: 0;
+      transition: transform .3s;
+    }
+    .faq-item[open] summary::after { transform: rotate(45deg); }
+    .faq-answer { padding: 0 1.5rem 1.4rem; }
+    .faq-answer p { font-size: 0.9rem; color: var(--cinza-t); line-height: 1.75; margin: 0; }
+    .faq-cta { text-align: center; margin-top: 2.5rem; }
+    .faq-cta p { color: var(--cinza-t); font-size: 0.92rem; margin-bottom: 1.1rem; }
+    .faq-cta a {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      background: var(--verde-wpp); color: white;
+      padding: 0.9rem 1.9rem; border-radius: 8px;
+      font-weight: 700; font-size: 0.93rem; text-decoration: none;
+      box-shadow: 0 6px 20px rgba(37,211,102,0.28);
+      transition: background .2s, transform .15s, box-shadow .2s;
+    }
+    .faq-cta a:hover { background: var(--verde-wpp2); transform: translateY(-2px); box-shadow: 0 10px 28px rgba(37,211,102,0.38); }
+    .faq-cta a svg { width: 19px; height: 19px; }
+
     /* ── ANIMAÇÃO DE SCROLL ── */
     .reveal {
       opacity: 0;
@@ -757,6 +835,111 @@
 </head>
 <body>
 
+<!-- DADOS ESTRUTURADOS (SEO + Google Maps + IAs) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "DrivingSchool",
+  "name": "AutoEscola ViaLivre",
+  "description": "Autoescola em Santo André com 94% de aprovação na primeira prova. Categorias A, B, C, D e E, instrutores certificados pelo DETRAN-SP e parcelamento em até 12x.",
+  "url": "https://vialivre.com.br/",
+  "telephone": "+551140000000",
+  "priceRange": "$$",
+  "image": "https://vialivre.com.br/preview.jpg",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Av. das Nações Unidas, 1500 - Sala 42",
+    "addressLocality": "Santo André",
+    "addressRegion": "SP",
+    "addressCountry": "BR"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": -23.648,
+    "longitude": -46.538
+  },
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      "opens": "08:00",
+      "closes": "18:00"
+    },
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": "Saturday",
+      "opens": "08:00",
+      "closes": "13:00"
+    }
+  ],
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "5.0",
+    "reviewCount": "4800"
+  },
+  "areaServed": {
+    "@type": "City",
+    "name": "Santo André"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Quanto tempo demora para tirar a CNH?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Em média, de 2 a 4 meses para a primeira habilitação, dependendo da sua disponibilidade para as aulas e da agenda de provas do DETRAN-SP."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Quais documentos eu preciso para me matricular?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "RG, CPF e comprovante de residência. A autoescola cuida do agendamento do exame médico e psicotécnico e orienta em toda a documentação."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Qual a idade mínima para tirar a carteira?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "É preciso ter no mínimo 18 anos completos, mas é possível iniciar o processo um pouco antes e deixar tudo encaminhado."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Vocês parcelam o valor? Quais as formas de pagamento?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Sim, parcelamento em até 12x sem juros no cartão, além de Pix, boleto e transferência."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "E se eu reprovar na prova prática ou teórica?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Você refaz a prova reprovada com a taxa do DETRAN e segue com mais aulas e apoio até passar. A taxa de aprovação na 1ª tentativa é de 94%."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Já tenho a categoria B. Posso adicionar moto ou caminhão?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Sim, fazemos adição de categoria (A, C, D e E) para quem já é habilitado. O processo é mais rápido que a primeira habilitação."
+      }
+    }
+  ]
+}
+</script>
+
 <!-- NAV -->
 <nav>
   <div class="nav-logo">
@@ -767,6 +950,7 @@
     <li><a href="#como-funciona">Como funciona</a></li>
     <li><a href="#porque">Diferenciais</a></li>
     <li><a href="#depoimentos">Depoimentos</a></li>
+    <li><a href="#faq">Dúvidas</a></li>
     <li><a href="#localizacao">Localização</a></li>
   </ul>
   <div class="nav-right">
@@ -1037,6 +1221,69 @@
           </div>
         </div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq" id="faq">
+  <div class="faq-inner">
+    <div class="faq-header reveal">
+      <span class="section-eyebrow" style="color:var(--azul-mid)">Tire suas dúvidas</span>
+      <h2>Perguntas frequentes</h2>
+      <p>As dúvidas que todo mundo tem antes de começar. Se a sua não estiver aqui, é só chamar no WhatsApp.</p>
+    </div>
+
+    <div class="reveal">
+      <details class="faq-item">
+        <summary>Quanto tempo demora para tirar a CNH?</summary>
+        <div class="faq-answer">
+          <p>Em média, de 2 a 4 meses para a primeira habilitação, dependendo da sua disponibilidade para as aulas e da agenda de provas do DETRAN-SP. A gente agiliza tudo que está ao nosso alcance e te mantém informado em cada etapa.</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>Quais documentos eu preciso para me matricular?</summary>
+        <div class="faq-answer">
+          <p>RG, CPF e comprovante de residência. Só isso para começar. A gente cuida do agendamento do exame médico e psicotécnico e te orienta em todo o resto da documentação — sem você se perder na burocracia.</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>Qual a idade mínima para tirar a carteira?</summary>
+        <div class="faq-answer">
+          <p>Você precisa ter no mínimo 18 anos completos. Mas pode iniciar o processo um pouco antes e já deixar tudo encaminhado para começar assim que completar a idade.</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>Vocês parcelam o valor? Quais as formas de pagamento?</summary>
+        <div class="faq-answer">
+          <p>Sim! Parcelamos em até 12x sem juros no cartão, e também aceitamos Pix, boleto e transferência. Temos condições para todos os bolsos — chama no WhatsApp que a gente monta um orçamento que cabe pra você.</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>E se eu reprovar na prova prática ou teórica?</summary>
+        <div class="faq-answer">
+          <p>Sem pânico — acontece, e a gente te prepara justamente pra isso não virar problema. Você refaz a prova reprovada (com a taxa do DETRAN) e seguimos com mais aulas e apoio até você passar. Nossa taxa de aprovação na 1ª tentativa é de 94%.</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>Já tenho a categoria B. Posso adicionar moto ou caminhão?</summary>
+        <div class="faq-answer">
+          <p>Pode sim! Fazemos adição de categoria (A, C, D e E) para quem já é habilitado. O processo é mais rápido que a primeira habilitação. Nos conte qual categoria você quer e a gente explica direitinho como funciona.</p>
+        </div>
+      </details>
+    </div>
+
+    <div class="faq-cta reveal">
+      <p>Ainda com dúvida? Fala com a gente — a resposta vem rápido.</p>
+      <a href="https://wa.me/5511900000000?text=Ol%C3%A1!%20Tenho%20uma%20d%C3%BAvida%20sobre%20tirar%20minha%20CNH%20na%20ViaLivre." target="_blank">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.137.565 4.146 1.55 5.878L0 24l6.294-1.524A11.944 11.944 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.794 9.794 0 01-5.007-1.371l-.359-.213-3.735.904.946-3.63-.234-.373A9.796 9.796 0 012.182 12c0-5.42 4.398-9.818 9.818-9.818 5.42 0 9.818 4.398 9.818 9.818S17.42 21.818 12 21.818z"/></svg>
+        Tirar minha dúvida no WhatsApp
+      </a>
     </div>
   </div>
 </section>
