@@ -64,33 +64,56 @@
     /* ── NAV ── */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      background: rgba(15,35,71,0.96);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(245,197,24,0.1);
+      background: rgba(15,35,71,0.55);
+      backdrop-filter: blur(16px) saturate(140%);
+      -webkit-backdrop-filter: blur(16px) saturate(140%);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
       display: flex; align-items: center; justify-content: space-between;
       padding: 0 6%;
-      height: 68px;
+      height: 76px;
+      transition: height .3s ease, background .3s ease, box-shadow .3s ease, border-color .3s ease;
     }
-    .nav-logo {
-      display: flex; align-items: center;
+    /* estado ao rolar a página */
+    nav.scrolled {
+      height: 64px;
+      background: rgba(13,27,51,0.92);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.28);
+      border-bottom-color: rgba(245,197,24,0.12);
     }
-    .nav-logo img { height: 40px; width: auto; display: block; }
-    .nav-logo-placeholder {
-      display: flex; align-items: center; gap: 0.5rem;
-      border: 1.5px dashed rgba(245,197,24,0.5);
-      border-radius: 8px;
-      padding: 0.3rem 0.9rem;
-      color: rgba(255,255,255,0.5);
-      font-size: 0.75rem; font-weight: 600;
-      letter-spacing: 0.5px;
-      cursor: pointer;
-      transition: border-color .2s, color .2s;
+
+    /* ── LOGO / MARCA ── */
+    .brand {
+      display: flex; align-items: center; gap: 0.7rem;
+      text-decoration: none;
     }
-    .nav-logo-placeholder:hover { border-color: var(--amarelo); color: var(--amarelo); }
-    .nav-logo-placeholder span { font-size: 1rem; }
+    .brand-badge {
+      width: 42px; height: 42px; border-radius: 12px;
+      background: linear-gradient(135deg, var(--amarelo) 0%, var(--amarelo2) 100%);
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 6px 18px rgba(245,197,24,0.3);
+      flex-shrink: 0;
+      transition: transform .25s, box-shadow .25s;
+    }
+    .brand:hover .brand-badge { transform: rotate(-8deg) scale(1.05); box-shadow: 0 8px 22px rgba(245,197,24,0.45); }
+    .brand-badge svg { width: 26px; height: 26px; color: var(--azul-deep); }
+    .brand-name {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.55rem; font-weight: 900; line-height: 1;
+      letter-spacing: 0.5px; color: var(--branco);
+      display: flex; flex-direction: column;
+    }
+    .brand-name b { font-weight: 900; }
+    .brand-name b span { color: var(--amarelo); }
+    .brand-tag {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.56rem; font-weight: 600; letter-spacing: 2px;
+      text-transform: uppercase; color: rgba(255,255,255,0.45);
+      margin-top: 2px;
+    }
+
     .nav-links { display: flex; gap: 2rem; list-style: none; }
     .nav-links a {
-      color: rgba(255,255,255,0.7);
+      color: rgba(255,255,255,0.72);
       text-decoration: none; font-size: 0.875rem; font-weight: 500;
       letter-spacing: 0.2px;
       transition: color .2s;
@@ -98,23 +121,27 @@
     }
     .nav-links a::after {
       content: '';
-      position: absolute; bottom: -4px; left: 0; right: 0;
-      height: 1.5px; background: var(--amarelo);
-      transform: scaleX(0); transition: transform .2s;
+      position: absolute; bottom: -6px; left: 0; right: 0;
+      height: 2px; border-radius: 2px; background: var(--amarelo);
+      transform: scaleX(0); transition: transform .25s;
     }
     .nav-links a:hover { color: var(--branco); }
     .nav-links a:hover::after { transform: scaleX(1); }
     .nav-cta {
+      display: inline-flex; align-items: center; gap: 0.45rem;
       background: var(--amarelo); color: var(--azul-deep);
-      padding: 0.5rem 1.3rem; border-radius: 6px;
+      padding: 0.6rem 1.4rem; border-radius: 30px;
       font-weight: 700; font-size: 0.85rem; text-decoration: none;
       letter-spacing: 0.2px;
-      transition: background .2s, transform .15s;
+      box-shadow: 0 4px 16px rgba(245,197,24,0.25);
+      transition: background .2s, transform .15s, box-shadow .2s;
     }
-    .nav-cta:hover { background: var(--amarelo2); transform: translateY(-1px); }
+    .nav-cta svg { width: 15px; height: 15px; }
+    .nav-cta:hover { background: var(--amarelo2); transform: translateY(-1px); box-shadow: 0 8px 22px rgba(245,197,24,0.4); }
     .nav-hamburger { display: none; cursor: pointer; flex-direction: column; gap: 5px; }
     .nav-hamburger span { width: 24px; height: 2px; background: white; border-radius: 2px; }
-    .nav-right { display: flex; align-items: center; gap: 0.6rem; }
+    .nav-right { display: flex; align-items: center; gap: 0.8rem; }
+    .nav-sep { width: 1px; height: 22px; background: rgba(255,255,255,0.12); }
 
     /* ── HERO ── */
     .hero {
@@ -795,6 +822,7 @@
       .map-container { height: 280px; }
       .nav-links, .nav-cta { display: none; }
       .nav-right .social-btn { display: none; }
+      .nav-sep { display: none; }
       .nav-hamburger { display: flex; }
       .cf-steps { grid-template-columns: 1fr; gap: 1.2rem; }
       .cf-steps::before { display: none; }
@@ -942,9 +970,22 @@
 
 <!-- NAV -->
 <nav>
-  <div class="nav-logo">
-    <div class="nav-logo-placeholder"><span>🖼️</span> SUA LOGO</div>
-  </div>
+  <!-- LOGO: troque o badge SVG pela logo real do cliente quando tiver (ex: <img src="logo.svg" height="42">) -->
+  <a href="#" class="brand" aria-label="AutoEscola ViaLivre - início">
+    <span class="brand-badge">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="9"/>
+        <circle cx="12" cy="12" r="2.5" fill="currentColor"/>
+        <path d="M12 9.5V3.2"/>
+        <path d="M14.1 13.2l4.6 3.4"/>
+        <path d="M9.9 13.2l-4.6 3.4"/>
+      </svg>
+    </span>
+    <span class="brand-name">
+      <b>Via<span>Livre</span></b>
+      <span class="brand-tag">AutoEscola</span>
+    </span>
+  </a>
   <ul class="nav-links" id="navLinks">
     <li><a href="#categorias">Categorias</a></li>
     <li><a href="#como-funciona">Como funciona</a></li>
@@ -963,7 +1004,11 @@
     <a href="https://tiktok.com/@suaautoescola" class="social-btn tiktok" target="_blank" title="TikTok">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
     </a>
-    <a href="#orcamento" class="nav-cta">Solicitar Orçamento</a>
+    <span class="nav-sep"></span>
+    <a href="#orcamento" class="nav-cta">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm1 15h-2v-2h2zm0-4h-2V7h2z" opacity="0"/><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4-8 5-8-5V6l8 5 8-5z"/></svg>
+      Solicitar Orçamento
+    </a>
   </div>
   <div class="nav-hamburger" id="navHamburger" onclick="toggleMenu()" aria-label="Abrir menu" role="button">
     <span></span><span></span><span></span>
@@ -1433,6 +1478,15 @@
     }
     e.target.value = v;
   });
+
+  // ── NAV: efeito ao rolar ──
+  const navbar = document.querySelector('nav');
+  function onScroll() {
+    if (window.scrollY > 24) navbar.classList.add('scrolled');
+    else navbar.classList.remove('scrolled');
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
 
   // ── MENU MOBILE ──
   const navLinks = document.getElementById('navLinks');
