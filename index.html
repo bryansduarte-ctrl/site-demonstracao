@@ -645,15 +645,40 @@
     /* ── ANIMAÇÃO DE SCROLL ── */
     .reveal {
       opacity: 0;
-      transform: translateY(28px);
-      transition: opacity .7s ease, transform .7s ease;
+      transform: translateY(34px);
+      transition: opacity .85s cubic-bezier(0.22, 1, 0.36, 1),
+                  transform .85s cubic-bezier(0.22, 1, 0.36, 1);
+      will-change: opacity, transform;
     }
     .reveal.is-visible {
       opacity: 1;
       transform: translateY(0);
     }
+
+    /* entrada escalonada: filhos entram em sequência */
+    .reveal-stagger > * {
+      opacity: 0;
+      transform: translateY(34px);
+      transition: opacity .8s cubic-bezier(0.22, 1, 0.36, 1),
+                  transform .8s cubic-bezier(0.22, 1, 0.36, 1);
+      will-change: opacity, transform;
+    }
+    .reveal-stagger.is-visible > * {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-stagger.is-visible > *:nth-child(1) { transition-delay: .05s; }
+    .reveal-stagger.is-visible > *:nth-child(2) { transition-delay: .14s; }
+    .reveal-stagger.is-visible > *:nth-child(3) { transition-delay: .23s; }
+    .reveal-stagger.is-visible > *:nth-child(4) { transition-delay: .32s; }
+    .reveal-stagger.is-visible > *:nth-child(5) { transition-delay: .41s; }
+    .reveal-stagger.is-visible > *:nth-child(6) { transition-delay: .50s; }
+
     @media (prefers-reduced-motion: reduce) {
-      .reveal { opacity: 1; transform: none; transition: none; }
+      html { scroll-behavior: auto; }
+      .reveal, .reveal-stagger > * {
+        opacity: 1 !important; transform: none !important; transition: none !important;
+      }
     }
 
     /* ── MENU MOBILE ── */
@@ -843,7 +868,7 @@
     <span class="section-eyebrow">O que oferecemos</span>
     <h2>Todas as categorias de <span>CNH</span></h2>
   </div>
-  <div class="cat-grid">
+  <div class="cat-grid reveal-stagger">
     <div class="cat-card">
       <span class="cat-icon">🏍️</span>
       <h4>Cat. A</h4>
@@ -885,18 +910,18 @@
       <h2>Da matrícula à CNH em <span style="color:var(--amarelo2)">3 passos</span></h2>
       <p>Sem burocracia, sem dor de cabeça. A gente conduz você por todo o processo — você só se preocupa em aprender.</p>
     </div>
-    <div class="cf-steps">
-      <div class="cf-step reveal">
+    <div class="cf-steps reveal-stagger">
+      <div class="cf-step">
         <div class="cf-num">1</div>
         <h4>Matrícula</h4>
         <p>Você fala com a gente pelo WhatsApp, escolhe a categoria e a gente cuida de toda a documentação e do exame médico.</p>
       </div>
-      <div class="cf-step reveal">
+      <div class="cf-step">
         <div class="cf-num">2</div>
         <h4>Aulas</h4>
         <p>Aulas teóricas e práticas no horário que cabe na sua rotina, com instrutores pacientes e carros modernos de duplo comando.</p>
       </div>
-      <div class="cf-step reveal">
+      <div class="cf-step">
         <div class="cf-num">3</div>
         <h4>CNH na mão</h4>
         <p>A gente agenda suas provas, acompanha cada etapa e comemora junto quando sua carteira chega. Pronto pra dirigir!</p>
@@ -919,7 +944,7 @@
       <h2>Não somos só uma autoescola.<br>Somos o seu caminho até a CNH.</h2>
       <p>Do primeiro contato até a carteirinha na mão, você nunca está sozinho. Veja o que nos diferencia.</p>
     </div>
-    <div class="diferenciais-grid">
+    <div class="diferenciais-grid reveal-stagger">
       <div class="dif-card">
         <div class="dif-icon">🎯</div>
         <h4>94% de aprovação na primeira tentativa</h4>
@@ -962,7 +987,7 @@
       <h2>Mais de 4.800 aprovados.<br>Cada um tem uma história.</h2>
       <p>Veja o que nossos alunos falam sobre a experiência na ViaLivre.</p>
     </div>
-    <div class="dep-grid">
+    <div class="dep-grid reveal-stagger">
       <div class="dep-card">
         <div class="dep-stars">★★★★★</div>
         <blockquote>"Tirei minha CNH B na primeira tentativa! Os instrutores são super pacientes e a escola é muito bem organizada. Quem tem medo de aprender a dirigir vai se sentir em casa aqui."</blockquote>
@@ -1164,7 +1189,7 @@
   });
 
   // ── ANIMAÇÃO DE SCROLL ──
-  const revealEls = document.querySelectorAll('.reveal');
+  const revealEls = document.querySelectorAll('.reveal, .reveal-stagger');
   if ('IntersectionObserver' in window) {
     const observer = new IntersectionObserver(function(entries) {
       entries.forEach(function(entry) {
@@ -1173,7 +1198,7 @@
           observer.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    }, { threshold: 0.1, rootMargin: '0px 0px -80px 0px' });
     revealEls.forEach(function(el) { observer.observe(el); });
   } else {
     revealEls.forEach(function(el) { el.classList.add('is-visible'); });
