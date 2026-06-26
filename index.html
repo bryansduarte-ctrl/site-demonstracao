@@ -52,7 +52,9 @@
       --verde-wpp2:#1EB851;
     }
 
-    html { scroll-behavior: smooth; }
+    /* scroll-padding faz as ancoras (#orcamento, etc.) pousarem abaixo da nav fixa.
+       Sem scroll-behavior global pra nao 'brigar' com o scroll do usuario em distancias longas. */
+    html { scroll-padding-top: 92px; }
 
     body {
       font-family: 'Inter', sans-serif;
