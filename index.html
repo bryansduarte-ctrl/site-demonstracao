@@ -772,6 +772,55 @@
     .faq-cta a:hover { background: var(--verde-wpp2); transform: translateY(-2px); box-shadow: 0 10px 28px rgba(37,211,102,0.38); }
     .faq-cta a svg { width: 19px; height: 19px; }
 
+    /* ── MODAL ORÇAMENTO ── */
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 1000;
+      background: rgba(9,18,38,0.6);
+      backdrop-filter: blur(9px); -webkit-backdrop-filter: blur(9px);
+      display: flex; align-items: center; justify-content: center;
+      padding: 1.5rem;
+      opacity: 0; visibility: hidden;
+      transition: opacity .3s ease, visibility .3s ease;
+    }
+    .modal-overlay.open { opacity: 1; visibility: visible; }
+    .modal {
+      background: var(--branco);
+      border-radius: 22px;
+      width: 100%; max-width: 450px;
+      max-height: 92vh; overflow-y: auto;
+      padding: 2.4rem 2.2rem;
+      position: relative;
+      box-shadow: 0 40px 100px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.06);
+      transform: translateY(24px) scale(0.96);
+      transition: transform .4s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .modal-overlay.open .modal { transform: translateY(0) scale(1); }
+    .modal-close {
+      position: absolute; top: 1.1rem; right: 1.1rem;
+      width: 38px; height: 38px; border-radius: 50%;
+      border: none; cursor: pointer;
+      background: var(--cinza-f); color: var(--cinza-t);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem; line-height: 1; font-weight: 400;
+      transition: background .2s, color .2s, transform .25s;
+    }
+    .modal-close:hover { background: #ffe3e3; color: #e03131; transform: rotate(90deg); }
+    .modal-header { text-align: center; margin-bottom: 1.6rem; }
+    .modal-icon {
+      width: 60px; height: 60px; border-radius: 16px;
+      background: linear-gradient(135deg, var(--azul-deep), var(--azul-mid));
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 1.1rem;
+      box-shadow: 0 10px 28px rgba(26,58,108,0.3);
+    }
+    .modal-icon svg { width: 30px; height: 30px; color: var(--amarelo); }
+    .modal-header h3 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.85rem; font-weight: 800; color: var(--azul-deep);
+      line-height: 1.05; margin-bottom: 0.35rem;
+    }
+    .modal-header > p { font-size: 0.86rem; color: var(--cinza-t); line-height: 1.55; max-width: 320px; margin: 0 auto; }
+
     /* ── ANIMAÇÃO DE SCROLL ── */
     .reveal {
       opacity: 0;
@@ -1019,7 +1068,7 @@
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
     </a>
     <span class="nav-sep"></span>
-    <a href="#orcamento" class="nav-cta">
+    <a href="#orcamento" class="nav-cta" onclick="openOrcamento(event)">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm1 15h-2v-2h2zm0-4h-2V7h2z" opacity="0"/><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4-8 5-8-5V6l8 5 8-5z"/></svg>
       Solicitar Orçamento
     </a>
@@ -1365,7 +1414,7 @@
 <section class="cta-banner">
   <h2>Pronto para tirar sua CNH?<br>A gente cuida de tudo.</h2>
   <p>Fale com um consultor agora e receba um orçamento personalizado em minutos.</p>
-  <a href="#orcamento" class="cta-btn-wpp">
+  <a href="#orcamento" class="cta-btn-wpp" onclick="openOrcamento(event)">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.137.565 4.146 1.55 5.878L0 24l6.294-1.524A11.944 11.944 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.794 9.794 0 01-5.007-1.371l-.359-.213-3.735.904.946-3.63-.234-.373A9.796 9.796 0 012.182 12c0-5.42 4.398-9.818 9.818-9.818 5.42 0 9.818 4.398 9.818 9.818S17.42 21.818 12 21.818z"/></svg>
     Solicitar orçamento agora
   </a>
@@ -1472,6 +1521,64 @@
   </svg>
 </a>
 
+<!-- MODAL ORÇAMENTO -->
+<div class="modal-overlay" id="orcamentoModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal">
+    <button class="modal-close" onclick="closeOrcamento()" aria-label="Fechar">&times;</button>
+
+    <div class="modal-header">
+      <div class="modal-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4-8 5-8-5V6l8 5 8-5z"/></svg>
+      </div>
+      <h3 id="modalTitle">Receba seu orçamento</h3>
+      <p>Preencha abaixo e um consultor te chama no WhatsApp em minutos.</p>
+    </div>
+
+    <div class="card-highlight">
+      🎯 Atendimento rápido — sem enrolação, sem spam
+    </div>
+
+    <div class="form-group">
+      <label>Seu nome</label>
+      <input type="text" id="m-nome" placeholder="Como podemos te chamar?" />
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>WhatsApp</label>
+        <input type="tel" id="m-tel" placeholder="(11) 99999-9999" />
+      </div>
+      <div class="form-group">
+        <label>Categoria</label>
+        <select id="m-categoria">
+          <option value="">Selecione</option>
+          <option value="A - Moto">A — Moto</option>
+          <option value="B - Carro">B — Carro</option>
+          <option value="AB - Moto e Carro">AB — Moto + Carro</option>
+          <option value="C - Caminhão">C — Caminhão</option>
+          <option value="D - Ônibus">D — Ônibus</option>
+          <option value="E - Combinado">E — Combinado</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Sua situação atual</label>
+      <select id="m-situacao">
+        <option value="">Selecione</option>
+        <option value="Não tenho CNH">🚦 Primeira habilitação</option>
+        <option value="Quero adicionar categoria">➕ Adicionar categoria</option>
+        <option value="CNH suspensa/cassada">🔄 CNH suspensa ou cassada</option>
+        <option value="Renovação">📄 Renovação / reciclagem</option>
+      </select>
+    </div>
+
+    <button class="btn-submit-wpp" onclick="enviarWppModal()">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.137.565 4.146 1.55 5.878L0 24l6.294-1.524A11.944 11.944 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.794 9.794 0 01-5.007-1.371l-.359-.213-3.735.904.946-3.63-.234-.373A9.796 9.796 0 012.182 12c0-5.42 4.398-9.818 9.818-9.818 5.42 0 9.818 4.398 9.818 9.818S17.42 21.818 12 21.818z"/></svg>
+      Falar com consultor agora
+    </button>
+    <p class="card-seguro">🔒 Seus dados são usados apenas para seu atendimento</p>
+  </div>
+</div>
+
 <script>
   const NUMERO_WPP = "5511900000000";
 
@@ -1498,14 +1605,66 @@
     window.open(url, '_blank');
   }
 
-  document.getElementById('tel').addEventListener('input', function(e) {
-    let v = e.target.value.replace(/\D/g, '');
-    if (v.length <= 11) {
-      v = v.replace(/(\d{2})(\d)/, '($1) $2');
-      v = v.replace(/(\d{5})(\d)/, '$1-$2');
-    }
-    e.target.value = v;
+  // máscara de telefone reutilizável
+  function aplicarMascaraTel(el) {
+    if (!el) return;
+    el.addEventListener('input', function(e) {
+      let v = e.target.value.replace(/\D/g, '');
+      if (v.length <= 11) {
+        v = v.replace(/(\d{2})(\d)/, '($1) $2');
+        v = v.replace(/(\d{5})(\d)/, '$1-$2');
+      }
+      e.target.value = v;
+    });
+  }
+  aplicarMascaraTel(document.getElementById('tel'));
+  aplicarMascaraTel(document.getElementById('m-tel'));
+
+  // ── MODAL ORÇAMENTO ──
+  const orcModal = document.getElementById('orcamentoModal');
+
+  function openOrcamento(e) {
+    if (e) e.preventDefault();
+    orcModal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    // foca o primeiro campo pra agilizar
+    setTimeout(function(){ var n = document.getElementById('m-nome'); if (n) n.focus(); }, 350);
+  }
+  function closeOrcamento() {
+    orcModal.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  // fecha ao clicar fora do modal (no overlay)
+  orcModal.addEventListener('click', function(e) {
+    if (e.target === orcModal) closeOrcamento();
   });
+  // fecha com a tecla Esc
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && orcModal.classList.contains('open')) closeOrcamento();
+  });
+
+  function enviarWppModal() {
+    const nome = document.getElementById('m-nome').value.trim();
+    const tel = document.getElementById('m-tel').value.trim();
+    const categoria = document.getElementById('m-categoria').value;
+    const situacao = document.getElementById('m-situacao').value;
+
+    if (!nome) { alert('Por favor, informe seu nome.'); return; }
+    if (!categoria) { alert('Por favor, selecione a categoria desejada.'); return; }
+
+    let msg = `Olá! 👋 Vim pelo site e gostaria de saber mais sobre a *AutoEscola ViaLivre*.
+
+*Nome:* ${nome}
+*Categoria:* ${categoria}`;
+
+    if (situacao) msg += `\n*Situação:* ${situacao}`;
+    if (tel) msg += `\n*WhatsApp:* ${tel}`;
+
+    msg += `\n\nPoderia me passar um orçamento? 😊`;
+
+    const url = `https://wa.me/${NUMERO_WPP}?text=${encodeURIComponent(msg)}`;
+    window.open(url, '_blank');
+  }
 
   // ── NAV: efeito ao rolar ──
   const navbar = document.querySelector('nav');
